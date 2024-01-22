@@ -20,11 +20,11 @@ def get_image(post_id: int) -> dict:
     ii = soup.find(id='ii')
     image_url = ii['src']
     image_name = image_url.split('/')[-1]
-    image_bytes = r.get(ii['src']).content
+    # image_bytes = r.get(ii['src']).content
     return {
         'post_id': post_id,
         'post_url': post_url,
         'url': image_url,
         'name': image_name,
-        'bytes': image_bytes
+        # 'bytes': image_bytes
     }
