@@ -12,7 +12,7 @@ bot = telebot.TeleBot(creds.token)
 def inline_markup():
     markup = InlineKeyboardMarkup()
     markup.row_width = 3
-    markup.add(InlineKeyboardButton("Get last", callback_data="cb_last"),
+    markup.add(InlineKeyboardButton("Get latest", callback_data="cb_last"),
                InlineKeyboardButton("New random", callback_data="cb_random"),
                InlineKeyboardButton("Manual", callback_data="cb_manual"))
     return markup
