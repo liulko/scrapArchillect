@@ -1,7 +1,7 @@
 import random
 
 import telebot
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, InputMediaAnimation
 
 import creds
 import archillect
@@ -62,11 +62,14 @@ def callback_query(call):
     bot.answer_callback_query(call.id, "receiving 5 random posts")
     last_post_index = archillect.get_last_post_index()
     input_media_photo_list = []
-    caption = ''
     for i in range(4):
         ii = archillect.get_image(random.randrange(1, last_post_index + 1))
-        input_media_photo_list.append(
-            InputMediaPhoto(ii['url'], caption=f'[{ii["post_id"]}]({ii["post_url"]})', parse_mode='MarkdownV2'))
+        while '.gif' in ii['name']:
+            ii = archillect.get_image(random.randrange(1, last_post_index + 1))
+
+        input_media_photo_list.append(InputMediaPhoto(ii['url'],
+                                                      caption=f'[{ii["post_id"]}]({ii["post_url"]})',
+                                                      parse_mode='MarkdownV2'))
     bot.send_media_group(call.message.chat.id, input_media_photo_list)
     image_sender(call.message.chat.id, rand=True)
 
