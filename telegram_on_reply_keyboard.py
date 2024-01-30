@@ -55,9 +55,10 @@ def random5_query(message):
 
 @bot.message_handler(commands=['animation'])
 def animation_query(message):
-    ii = archillect.get_image(random.randrange(1, archillect.get_last_post_index() + 1))
+    last_post_index = archillect.get_last_post_index()
+    ii = archillect.get_image(random.randrange(1, last_post_index + 1))
     while not is_animation(ii['name']):
-        ii = archillect.get_image(random.randrange(1, archillect.get_last_post_index() + 1))
+        ii = archillect.get_image(random.randrange(1, last_post_index + 1))
     caption = f'[{ii["post_id"]}]({ii["post_url"]})'
     bot.send_animation(message.chat.id, ii['url'], caption=caption, parse_mode='MarkdownV2')
 
