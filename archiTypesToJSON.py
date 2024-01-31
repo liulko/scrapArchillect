@@ -22,4 +22,4 @@ def make_archi_types_json(max_id):
 
 
 # make_archi_types_json(archillect.get_last_post_index())
-make_archi_types_json(5000)
+make_archi_types_json(1000)
