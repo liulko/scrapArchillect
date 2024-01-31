@@ -20,14 +20,17 @@ def get_image(post_id: int) -> dict:
     print(f'{post_id}: {response.status_code}')
     while not response.status_code == 200:
         proxy = r.get(creds.proxy_api_address).text.split(':')
-        host = proxy[0]
-        port = proxy[1]
+        host = creds.proxy_host
+        port = creds.proxy_port
         username = proxy[2]
         password = proxy[3]
         proxies = {
             'https': f'http://{username}:{password}@{host}:{port}'
         }
-        response = r.get(post_url, proxies=proxies)
+        try:
+            response = r.get(post_url, proxies=proxies)
+        except Exception as e:
+            print(e)
         print(f'{post_id}: {response.status_code} with {username}')
 
     post_page_html = response.text
