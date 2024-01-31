@@ -18,7 +18,7 @@ def get_image(post_id: int) -> dict:
     response = r.get(post_url)
     print(f'{post_id}: {response.status_code}')
     while not response.status_code == 200:
-        proxy = r.get(creds.proxy_api_address).text
+        proxy = f'http://{r.get(creds.proxy_api_address).text}'
         proxies = {
             'http': proxy,
             'https': proxy
