@@ -15,7 +15,18 @@ def get_last_post_index() -> int:
 def get_image(post_id: int) -> dict:
     base_url = 'https://archillect.com/'
     post_url = base_url + str(post_id)
-    post_page_html = r.get(post_url).text
+    response = r.get(post_url)
+    print(f'{post_id}: {response.status_code}')
+    while not response.status_code == 200:
+        proxy = r.get('http://51.20.244.123:5000/api/proxy').text
+        proxies = {
+            'http': proxy,
+            'https': proxy
+        }
+        response = r.get(post_url, proxies=proxies)
+        print(f'{post_id}: {response.status_code} with {proxy.split(':')[-2]}')
+
+    post_page_html = response.text
     soup = bs4.BeautifulSoup(post_page_html, 'html.parser')
     ii = soup.find(id='ii')
     image_url = ii['src']
