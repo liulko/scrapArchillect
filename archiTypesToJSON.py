@@ -8,7 +8,7 @@ import json
 
 def make_archi_types_json(max_id):
     to_be_json = list()
-    for i in range(1, max_id + 1):
+    for i in range(1001, max_id + 1):
         # os.system('clear') if os.name == 'posix' else os.system('cls')
         print(f'work on {i}/{max_id}')
         ii = archillect.get_image(i)
@@ -22,4 +22,4 @@ def make_archi_types_json(max_id):
 
 
 # make_archi_types_json(archillect.get_last_post_index())
-make_archi_types_json(1000)
+make_archi_types_json(50000)
