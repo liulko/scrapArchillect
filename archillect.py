@@ -17,9 +17,12 @@ def get_image(post_id: int) -> dict:
     base_url = 'https://archillect.com/'
     post_url = base_url + str(post_id)
     response = r.get(post_url)
-    print(f'{post_id}: {response.status_code}')
+    print(f'id {post_id}: {response.status_code} status code')
     while not response.status_code == 200:
-        proxy = r.get(creds.proxy_api_address).text.split(':')
+        proxy_resp = r.get(creds.proxy_api_address)
+        while not proxy_resp.status_code == 200:
+            proxy_resp = r.get(creds.proxy_api_address)
+        proxy = proxy_resp.text.split(':')
         host = creds.proxy_host
         port = creds.proxy_port
         username = proxy[2]
@@ -31,7 +34,7 @@ def get_image(post_id: int) -> dict:
             response = r.get(post_url, proxies=proxies)
         except Exception as e:
             print(e)
-        print(f'{post_id}: {response.status_code} with {username}')
+        print(f'id {post_id}: {response.status_code} status code with {username}')
 
     post_page_html = response.text
     soup = bs4.BeautifulSoup(post_page_html, 'html.parser')
