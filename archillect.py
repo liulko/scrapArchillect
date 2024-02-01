@@ -26,7 +26,7 @@ def get_image(post_id: int) -> dict:
         host = creds.proxy_host
         port = creds.proxy_port
         username = proxy[2]
-        password = proxy[3]
+        password = creds.proxy_password
         proxies = {
             'https': f'http://{username}:{password}@{host}:{port}'
         }
