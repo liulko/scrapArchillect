@@ -6,7 +6,7 @@ import creds
 
 
 PROXY_LIST = open('ips-datacenter_proxy1.txt', 'r').read().split('\n')
-
+print(len(PROXY_LIST))
 
 def get_last_post_index() -> int:
     url = 'https://archillect.com/archive'
@@ -24,7 +24,7 @@ def get_image(post_id: int) -> dict:
     response = r.get(post_url)
     print(f'id {post_id}: {response.status_code} status code')
     while not response.status_code == 200:
-        proxy = PROXY_LIST[random.randrange(0, 20000)].split(':')
+        proxy = PROXY_LIST[random.randrange(19999)].split(':')
         host = creds.proxy_host
         port = creds.proxy_port
         username = proxy[2]
