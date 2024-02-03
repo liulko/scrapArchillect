@@ -1,6 +1,11 @@
+import random
+
 import requests as r
 import bs4
 import creds
+
+
+PROXY_LIST = open('ips-datacenter_proxy1.txt', 'r').read().split('\n')
 
 
 def get_last_post_index() -> int:
@@ -19,10 +24,7 @@ def get_image(post_id: int) -> dict:
     response = r.get(post_url)
     print(f'id {post_id}: {response.status_code} status code')
     while not response.status_code == 200:
-        proxy_resp = r.get(creds.proxy_api_address)
-        while not proxy_resp.status_code == 200:
-            proxy_resp = r.get(creds.proxy_api_address)
-        proxy = proxy_resp.text.split(':')
+        proxy = PROXY_LIST[random.randrange(0, 20000)].split(':')
         host = creds.proxy_host
         port = creds.proxy_port
         username = proxy[2]
