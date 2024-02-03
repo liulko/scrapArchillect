@@ -4,13 +4,25 @@ import requests as r
 import bs4
 import creds
 
-
 PROXY_LIST = open('ips-datacenter_proxy1.txt', 'r').read().split('\n')
 print(len(PROXY_LIST))
 
+
+def get_proxy():
+    proxy = PROXY_LIST[random.randrange(19999)].split(':')
+    host = creds.proxy_host
+    port = creds.proxy_port
+    username = proxy[2]
+    password = creds.proxy_password
+    return {
+        'https': f'http://{username}:{password}@{host}:{port}'
+    }
+
+
 def get_last_post_index() -> int:
     url = 'https://archillect.com/archive'
-    html = r.get(url).text
+    proxies = get_proxy()
+    html = r.get(url, proxies=proxies).text
     soup = bs4.BeautifulSoup(html, 'html.parser')
     archive = soup.find(id='archive')
     first_a = archive.find_all('a')[0]
@@ -24,19 +36,12 @@ def get_image(post_id: int) -> dict:
     response = r.get(post_url)
     print(f'id {post_id}: {response.status_code} status code')
     while not response.status_code == 200:
-        proxy = PROXY_LIST[random.randrange(19999)].split(':')
-        host = creds.proxy_host
-        port = creds.proxy_port
-        username = proxy[2]
-        password = creds.proxy_password
-        proxies = {
-            'https': f'http://{username}:{password}@{host}:{port}'
-        }
+        proxies = get_proxy()
         try:
             response = r.get(post_url, proxies=proxies)
         except Exception as e:
             print(e)
-        print(f'id {post_id}: {response.status_code} status code with {username}')
+        print(f'id {post_id}: {response.status_code} status code with proxy')
 
     post_page_html = response.text
     soup = bs4.BeautifulSoup(post_page_html, 'html.parser')
