@@ -36,6 +36,11 @@ def get_image(post_id: int) -> dict:
     response = r.get(post_url)
     print(f'id {post_id}: {response.status_code} status code')
     while not response.status_code == 200:
+        if response.status_code == 504:
+            return {
+                'post_id': post_id,
+                'url': False
+            }
         proxies = get_proxy()
         try:
             response = r.get(post_url, proxies=proxies)
