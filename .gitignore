@@ -2,3 +2,5 @@
 /.idea
 creds.py
 PrivateIPv4address.py
+ips-datacenter_proxy1.txt
+__pycache__/
