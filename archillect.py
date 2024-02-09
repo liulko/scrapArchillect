@@ -50,16 +50,22 @@ def get_image(post_id: int) -> dict:
 
     post_page_html = response.text
     soup = bs4.BeautifulSoup(post_page_html, 'html.parser')
-    ii = soup.find(id='ii')
-    image_url = ii['src']
-    image_name = image_url.split('/')[-1]
-    # image_bytes = r.get(ii['src']).content
-    image_type = image_name.split('.')[-1]
-    return {
-        'post_id': post_id,
-        'post_url': post_url,
-        'url': image_url,
-        'name': image_name,
-        # 'bytes': image_bytes,
-        'image_type': image_type
-    }
+    try:
+        ii = soup.find(id='ii')
+        image_url = ii['src']
+        image_name = image_url.split('/')[-1]
+        # image_bytes = r.get(ii['src']).content
+        image_type = image_name.split('.')[-1]
+        return {
+            'post_id': post_id,
+            'post_url': post_url,
+            'url': image_url,
+            'name': image_name,
+            # 'bytes': image_bytes,
+            'image_type': image_type
+        }
+    except:
+        return {
+            'post_id': post_id,
+            'url': False
+        }
